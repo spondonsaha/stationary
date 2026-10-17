@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-ink-800 font-sans antialiased;
+  }
+
+  /* Consistent, visible keyboard focus everywhere (WCAG 2.4.7). */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ink-500 ring-offset-2 ring-offset-paper-50;
+  }
+
+  ::selection {
+    @apply bg-ink-100 text-ink-900;
+  }
+}
+
+@layer components {
+  /* Loading skeleton shimmer (CSS-only micro-interaction). */
+  .skeleton {
+    @apply relative overflow-hidden bg-ink-100/60;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+
+  /* Restrained press feedback — a single subtle scale, no bounce. */
+  .btn-press {
+    @apply transition-transform duration-100 active:scale-[0.99];
+  }
+
+  /* Subtle underline-on-hover for quiet text links. */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: left 100%;
+    transition: background-size 0.2s ease;
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
+
+@layer utilities {
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Print: A4 invoice view, no site chrome                              */
+/* ------------------------------------------------------------------ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .print-hide {
+    display: none !important;
+  }
+
+  .print-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
