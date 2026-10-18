@@ -159,10 +159,12 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceView }) {
               <dd className="tabular-nums text-ink-800">−{formatMoney(invoice.discount)}</dd>
             </div>
           ) : null}
-          <div className="flex justify-between">
-            <dt className="text-ink-500">Tax ({toMoney(invoice.taxRate)}%)</dt>
-            <dd className="tabular-nums text-ink-800">{formatMoney(invoice.tax)}</dd>
-          </div>
+          {toMoney(invoice.tax) > 0 ? (
+            <div className="flex justify-between">
+              <dt className="text-ink-500">Tax ({toMoney(invoice.taxRate)}%)</dt>
+              <dd className="tabular-nums text-ink-800">{formatMoney(invoice.tax)}</dd>
+            </div>
+          ) : null}
           <div className="flex justify-between border-t border-ink-200 pt-2 text-base font-semibold text-ink">
             <dt>Grand total</dt>
             <dd className="tabular-nums">{formatMoney(invoice.total)}</dd>

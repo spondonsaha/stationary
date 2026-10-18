@@ -11,15 +11,14 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   /**
    * Inline server-side env into the client bundle at build time so cart/checkout
-   * UI always matches the configured currency, tax rate and store name. Server
+   * UI always matches the configured currency and store name. Server
    * components read the live values directly.
    */
   env: {
     NEXT_PUBLIC_STORE_NAME:
       process.env.STORE_NAME ?? process.env.SHOP_NAME ?? "University Bookstore",
     NEXT_PUBLIC_UNIVERSITY_NAME: process.env.UNIVERSITY_NAME ?? "Northgate University",
-    NEXT_PUBLIC_CURRENCY: process.env.CURRENCY ?? "USD",
-    NEXT_PUBLIC_TAX_RATE: process.env.TAX_RATE ?? "8.5",
+    NEXT_PUBLIC_CURRENCY: process.env.CURRENCY ?? "BDT",
   },
   images: {
     // Product photos plus occasional SVG uploads from the admin.

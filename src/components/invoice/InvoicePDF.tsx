@@ -6,13 +6,16 @@ import {
   View,
   renderToBuffer,
 } from "@react-pdf/renderer";
-import { formatMoney, toMoney, type ShopInfo } from "@/lib/config";
+import { formatMoney, shopConfig, toMoney, type ShopInfo } from "@/lib/config";
 import type { InvoiceView } from "@/lib/queries/invoices";
 
 /**
  * PDF rendering of an invoice. Mirrors InvoiceSheet markup and uses the
  * built-in Helvetica family — no font downloads, so PDFs render fast.
  */
+
+/** ASCII-only money ("BDT 1,234.50") — Helvetica cannot render the ৳ glyph. */
+const pdfMoney = (v: number | string) => formatMoney(v, shopConfig.currency, "code");
 
 const ink = "#1F3A5F";
 const muted = "#5A6B80";
@@ -202,39 +205,41 @@ export function InvoicePDF({
           <View key={i} style={styles.row} wrap={false}>
             <Text style={styles.colItem}>{item.productName}</Text>
             <Text style={[styles.colQty, { color: muted }]}>{item.quantity}</Text>
-            <Text style={[styles.colPrice, { color: muted }]}>{formatMoney(item.unitPrice)}</Text>
-            <Text style={styles.colTotal}>{formatMoney(item.lineTotal)}</Text>
+            <Text style={[styles.colPrice, { color: muted }]}>{pdfMoney(item.unitPrice)}</Text>
+            <Text style={styles.colTotal}>{pdfMoney(item.lineTotal)}</Text>
           </View>
         ))}
 
         <View style={styles.totals}>
           <View style={styles.totalRow}>
             <Text style={{ color: muted }}>Subtotal</Text>
-            <Text>{formatMoney(invoice.subtotal)}</Text>
+            <Text>{pdfMoney(invoice.subtotal)}</Text>
           </View>
           {toMoney(invoice.discount) > 0 ? (
             <View style={styles.totalRow}>
               <Text style={{ color: muted }}>Discount</Text>
-              <Text>−{formatMoney(invoice.discount)}</Text>
+              <Text>−{pdfMoney(invoice.discount)}</Text>
             </View>
           ) : null}
-          <View style={styles.totalRow}>
-            <Text style={{ color: muted }}>Tax ({toMoney(invoice.taxRate)}%)</Text>
-            <Text>{formatMoney(invoice.tax)}</Text>
-          </View>
+          {toMoney(invoice.tax) > 0 ? (
+            <View style={styles.totalRow}>
+              <Text style={{ color: muted }}>Tax ({toMoney(invoice.taxRate)}%)</Text>
+              <Text>{pdfMoney(invoice.tax)}</Text>
+            </View>
+          ) : null}
           <View style={styles.grandRow}>
             <Text>Grand total</Text>
-            <Text>{formatMoney(invoice.total)}</Text>
+            <Text>{pdfMoney(invoice.total)}</Text>
           </View>
           {toMoney(invoice.amountPaid) > 0 ? (
             <>
               <View style={[styles.totalRow, { marginTop: 7 }]}>
                 <Text style={{ color: muted }}>Amount paid</Text>
-                <Text>{formatMoney(invoice.amountPaid)}</Text>
+                <Text>{pdfMoney(invoice.amountPaid)}</Text>
               </View>
               <View style={styles.totalRow}>
                 <Text style={styles.strong}>Balance due</Text>
-                <Text style={styles.strong}>{formatMoney(balance)}</Text>
+                <Text style={styles.strong}>{pdfMoney(balance)}</Text>
               </View>
             </>
           ) : null}
@@ -253,7 +258,7 @@ export function InvoicePDF({
               <Text style={styles.noteLabel}>Payments received</Text>
               {invoice.payments.map((p, i) => (
                 <Text key={i} style={styles.noteBody}>
-                  {p.createdAt.slice(0, 10)} · {p.method.replace("_", " ")} · {formatMoney(p.amount)}
+                  {p.createdAt.slice(0, 10)} · {p.method.replace("_", " ")} · {pdfMoney(p.amount)}
                 </Text>
               ))}
             </View>

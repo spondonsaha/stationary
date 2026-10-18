@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { formatMoney, shopConfig } from "@/lib/config";
+import { formatMoney } from "@/lib/config";
 import { getProductBySlug, getProductsPage } from "@/lib/queries/catalog";
 import { ProductCard } from "@/components/storefront/ProductCard";
 import { ProductPurchasePanel } from "@/components/storefront/ProductPurchasePanel";
@@ -89,9 +89,6 @@ export default async function ProductDetailPage({ params }: Params) {
 
           <p className="mt-6 font-display text-4xl font-semibold tabular-nums text-ink">
             {formatMoney(price)}
-          </p>
-          <p className="mt-1 text-xs text-ink-400">
-            Tax ({shopConfig.taxRatePercent}%) calculated at checkout.
           </p>
 
           {/* Client: qty selector + add to cart. Server-rendered fallback keeps

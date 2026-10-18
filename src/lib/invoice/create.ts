@@ -13,7 +13,6 @@ import {
 import { nextInvoiceNumber } from "./number";
 import { randomToken } from "@/lib/auth/password";
 import { computeTotals, lineTotal } from "@/lib/cart/totals";
-import { shopConfig } from "@/lib/config";
 
 const DUE_DAYS = 14;
 
@@ -271,7 +270,7 @@ export async function createOrderWithInvoice(input: {
         customerNameSnapshot: customer.name,
         subtotal: totals.subtotal.toFixed(2),
         discount: totals.discount.toFixed(2),
-        taxRate: String(shopConfig.taxRatePercent),
+        taxRate: "0",
         tax: totals.tax.toFixed(2),
         total: totals.total.toFixed(2),
         amountPaid: "0.00",
@@ -375,7 +374,7 @@ export async function createManualInvoice(input: {
         customerNameSnapshot: customer.name,
         subtotal: totals.subtotal.toFixed(2),
         discount: totals.discount.toFixed(2),
-        taxRate: String(shopConfig.taxRatePercent),
+        taxRate: "0",
         tax: totals.tax.toFixed(2),
         total: totals.total.toFixed(2),
         amountPaid: amountPaid.toFixed(2),
@@ -562,7 +561,7 @@ export async function createAdminOrder(input: {
         customerNameSnapshot: customer.name,
         subtotal: totals.subtotal.toFixed(2),
         discount: totals.discount.toFixed(2),
-        taxRate: String(shopConfig.taxRatePercent),
+        taxRate: "0",
         tax: totals.tax.toFixed(2),
         total: totals.total.toFixed(2),
         amountPaid: amountPaid.toFixed(2),

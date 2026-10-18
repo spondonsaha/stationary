@@ -74,7 +74,7 @@ export default async function AdminOrderDetailPage({
           <dl className="mt-4 ml-auto max-w-xs space-y-2 text-sm">
             <Row label="Subtotal" value={formatMoney(order.subtotal)} />
             {Number(order.discount) > 0 ? <Row label="Discount" value={`−${formatMoney(order.discount)}`} /> : null}
-            <Row label="Tax" value={formatMoney(order.tax)} />
+            {Number(order.tax) > 0 ? <Row label="Tax" value={formatMoney(order.tax)} /> : null}
             <div className="flex justify-between border-t border-ink-100 pt-2 text-base font-semibold text-ink">
               <dt>Total</dt>
               <dd className="tabular-nums">{formatMoney(order.total)}</dd>

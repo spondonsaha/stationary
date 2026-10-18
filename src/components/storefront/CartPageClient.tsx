@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { useCartContext } from "@/components/cart/CartProvider";
-import { formatMoney, shopConfig } from "@/lib/config";
+import { formatMoney } from "@/lib/config";
 import { CartLines } from "./CartLines";
-
-const TAX = shopConfig.taxRatePercent;
 
 /**
  * Full cart page. Reads the same localStorage-backed store as the drawer,
@@ -23,8 +21,7 @@ export function CartPageClient() {
     );
   }
 
-  const tax = Math.round(subtotal * TAX) / 100;
-  const total = Math.round((subtotal + tax) * 100) / 100;
+  const total = subtotal;
 
   return (
     <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -43,10 +40,6 @@ export function CartPageClient() {
           <div className="flex justify-between text-ink-500">
             <dt>Subtotal</dt>
             <dd className="tabular-nums">{formatMoney(subtotal)}</dd>
-          </div>
-          <div className="flex justify-between text-ink-500">
-            <dt>Tax ({TAX}%)</dt>
-            <dd className="tabular-nums">{formatMoney(tax)}</dd>
           </div>
           <div className="flex justify-between border-t border-ink-100 pt-2 text-base font-semibold text-ink">
             <dt>Total</dt>

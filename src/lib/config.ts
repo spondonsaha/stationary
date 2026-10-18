@@ -36,10 +36,8 @@ export const shopConfig = {
   /** Store opening hours shown in the footer and on invoices. */
   hours: env("STORE_HOURS") ?? "Mon–Fri 8:00–18:00 · Sat 10:00–16:00",
   currency: (
-    env("NEXT_PUBLIC_CURRENCY", "CURRENCY") ?? "USD"
+    env("NEXT_PUBLIC_CURRENCY", "CURRENCY") ?? "BDT"
   ).toUpperCase(),
-  /** Tax rate as percent, e.g. 8.5 => 8.5% */
-  taxRatePercent: Number(env("NEXT_PUBLIC_TAX_RATE", "TAX_RATE") ?? "8.5"),
   baseUrl: env("NEXT_PUBLIC_URL") ?? "http://localhost:3000",
   // Lazy getter: this module is imported by client components (formatMoney,
   // branding), and production client bundles only inline NEXT_PUBLIC_* vars —
@@ -54,16 +52,27 @@ export type ShopInfo = typeof shopConfig;
 
 const currencyFormatters = new Map<string, Intl.NumberFormat>();
 
-export function formatMoney(amount: number | string, currency = shopConfig.currency): string {
-  let fmt = currencyFormatters.get(currency);
+/**
+ * Display money. UI uses the narrow currency symbol (৳1,234.50); pass
+ * "code" for ASCII-only output (BDT 1,234.50) where the glyph may not
+ * render — e.g. @react-pdf's built-in fonts.
+ */
+export function formatMoney(
+  amount: number | string,
+  currency = shopConfig.currency,
+  display: "narrowSymbol" | "code" = "narrowSymbol",
+): string {
+  const key = `${currency}|${display}`;
+  let fmt = currencyFormatters.get(key);
   if (!fmt) {
     fmt = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency,
+      currencyDisplay: display,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-    currencyFormatters.set(currency, fmt);
+    currencyFormatters.set(key, fmt);
   }
   const n = typeof amount === "string" ? Number(amount) : amount;
   return fmt.format(Number.isFinite(n) ? n : 0);

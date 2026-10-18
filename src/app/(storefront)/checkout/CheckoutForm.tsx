@@ -4,12 +4,10 @@ import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import { checkoutAction, type CheckoutState } from "./actions";
 import { useCartContext } from "@/components/cart/CartProvider";
-import { formatMoney, shopConfig } from "@/lib/config";
+import { formatMoney } from "@/lib/config";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Select, Textarea } from "@/components/ui/Input";
 import type { DepartmentOption } from "@/lib/queries/departments";
-
-const TAX = shopConfig.taxRatePercent;
 
 const CUSTOMER_TYPES = [
   { value: "student", label: "Student", hint: "Student ID required" },
@@ -46,8 +44,7 @@ export function CheckoutForm({ departments }: { departments: DepartmentOption[] 
     [items],
   );
 
-  const tax = Math.round(subtotal * TAX) / 100;
-  const total = Math.round((subtotal + tax) * 100) / 100;
+  const total = subtotal;
 
   if (items.length === 0) {
     return (
@@ -321,10 +318,6 @@ export function CheckoutForm({ departments }: { departments: DepartmentOption[] 
             <div className="flex justify-between text-ink-500">
               <dt>Subtotal</dt>
               <dd className="tabular-nums">{formatMoney(subtotal)}</dd>
-            </div>
-            <div className="flex justify-between text-ink-500">
-              <dt>Tax ({TAX}%)</dt>
-              <dd className="tabular-nums">{formatMoney(tax)}</dd>
             </div>
             <div className="flex justify-between border-t border-ink-100 pt-2 text-base font-semibold text-ink">
               <dt>Total</dt>

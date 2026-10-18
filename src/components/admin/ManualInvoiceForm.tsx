@@ -7,7 +7,7 @@ import {
   type ManualInvoiceState,
 } from "@/app/admin/invoices/actions";
 import { computeTotals, lineTotal } from "@/lib/cart/totals";
-import { formatMoney, shopConfig } from "@/lib/config";
+import { formatMoney } from "@/lib/config";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Select, Textarea } from "@/components/ui/Input";
 
@@ -211,7 +211,6 @@ export function ManualInvoiceForm() {
                 />
               </dd>
             </div>
-            <SummaryRow label={`Tax (${shopConfig.taxRatePercent}%)`} value={formatMoney(totals.tax)} />
             <div className="flex justify-between border-t border-ink-100 pt-2 text-base font-semibold text-ink">
               <dt>Total</dt>
               <dd className="tabular-nums">{formatMoney(totals.total)}</dd>
