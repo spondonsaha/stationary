@@ -63,12 +63,16 @@ const config: Config = {
         serif: ["var(--font-serif)", "Georgia", "Cambria", "serif"],
       },
       boxShadow: {
-        soft: "0 1px 2px rgba(16,24,40,0.04)",
-        lift: "0 4px 12px rgba(16,24,40,0.08)",
-        drawer: "-8px 0 24px rgba(16,24,40,0.12)",
+        soft: "0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.04)",
+        lift: "0 2px 4px rgba(16,24,40,0.04), 0 8px 20px rgba(16,24,40,0.08)",
+        card: "0 1px 2px rgba(16,24,40,0.04), 0 2px 8px rgba(16,24,40,0.04)",
+        "card-hover":
+          "0 4px 8px rgba(16,24,40,0.06), 0 16px 32px rgba(16,24,40,0.10)",
+        drawer: "-12px 0 32px rgba(16,24,40,0.14)",
+        "header-scroll": "0 1px 0 rgba(16,24,40,0.06), 0 4px 16px rgba(16,24,40,0.06)",
       },
       borderRadius: {
-        card: "6px",
+        card: "10px",
       },
       keyframes: {
         "slide-in-right": {
@@ -79,10 +83,26 @@ const config: Config = {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(16px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-up-sm": {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        pop: {
+          "0%": { transform: "scale(1)" },
+          "40%": { transform: "scale(1.28)" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
-        "slide-in-right": "slide-in-right 0.2s ease-out",
+        "slide-in-right": "slide-in-right 0.25s cubic-bezier(0.32,0.72,0,1)",
         "fade-in": "fade-in 0.15s ease-out",
+        "fade-up": "fade-up 0.5s cubic-bezier(0.22,1,0.36,1) both",
+        "fade-up-sm": "fade-up-sm 0.4s cubic-bezier(0.22,1,0.36,1) both",
+        pop: "pop 0.35s cubic-bezier(0.34,1.56,0.64,1)",
       },
     },
   },

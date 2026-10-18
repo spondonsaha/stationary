@@ -56,7 +56,7 @@ export default async function ProductsPage({
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <nav aria-label="Breadcrumb" className="mb-4 text-sm text-ink-400">
-        <Link href="/" className="hover:text-ink">
+        <Link href="/" className="transition-colors hover:text-ink">
           Home
         </Link>{" "}
         / <span className="text-ink-600">Shop</span>
@@ -64,11 +64,12 @@ export default async function ProductsPage({
 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-ink">{heading}</h1>
-          <p className="mt-1 text-sm text-ink-500">
+          <h1 className="font-serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{heading}</h1>
+          <div className="rule-gold mt-3" aria-hidden />
+          <p className="mt-3 text-sm text-ink-500">
             {q ? (
               <>
-                Results for <span className="font-semibold text-ink-700">“{q}”</span>
+                Results for <span className="font-semibold text-ink-700">&ldquo;{q}&rdquo;</span>
               </>
             ) : audience === "department" ? (
               "Office, paper and book supplies suited to department accounts."
@@ -88,6 +89,8 @@ export default async function ProductsPage({
         sort={sort}
         view={view}
       />
+
+      <ActiveChips q={q} category={category} audience={audience} brands={brands} sort={sort} view={view} page={page} />
 
       <div className="mt-6">
         <Suspense
@@ -127,6 +130,78 @@ function buildQuery(opts: {
   if (opts.view === "list") params.set("view", "list");
   if (opts.page && opts.page > 1) params.set("page", String(opts.page));
   return params.size ? `?${params}` : "";
+}
+
+/** Removable pills showing the currently-active filters. */
+function ActiveChips({
+  q,
+  category,
+  audience,
+  brands,
+  sort,
+  view,
+  page,
+}: {
+  q: string;
+  category: string;
+  audience: string;
+  brands: string[];
+  sort: SortKey;
+  view: string;
+  page: number;
+}) {
+  const chips: { label: string; href: string }[] = [];
+  if (q) {
+    chips.push({
+      label: `Search: “${q}”`,
+      href: `/products${buildQuery({ category, audience, brands, sort, view, page })}`,
+    });
+  }
+  if (category) {
+    chips.push({
+      label: category.replace(/-/g, " "),
+      href: `/products${buildQuery({ q, audience, brands, sort, view, page })}`,
+    });
+  }
+  if (audience) {
+    chips.push({
+      label: "Department",
+      href: `/products${buildQuery({ q, category, brands, sort, view, page })}`,
+    });
+  }
+  for (const b of brands) {
+    chips.push({
+      label: b,
+      href: `/products${buildQuery({ q, category, audience, brands: brands.filter((x) => x !== b), sort, view, page })}`,
+    });
+  }
+  if (chips.length === 0) return null;
+
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-2">
+      {chips.map((chip) => (
+        <Link
+          key={chip.label}
+          href={chip.href}
+          className="group inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-white py-1 pl-3.5 pr-2 text-xs font-medium text-ink-600 transition-all duration-150 hover:border-ink-400 hover:text-ink"
+        >
+          {chip.label}
+          <span className="flex h-4 w-4 items-center justify-center rounded-full bg-ink-100 text-ink-400 transition-colors group-hover:bg-ink group-hover:text-white" aria-hidden>
+            <svg viewBox="0 0 12 12" width="9" height="9" fill="none">
+              <path d="M3 3l6 6M9 3L3 9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </span>
+          <span className="sr-only">Remove filter</span>
+        </Link>
+      ))}
+      <Link
+        href="/products"
+        className="text-xs font-medium text-ink-400 underline-offset-2 transition-colors hover:text-ink hover:underline"
+      >
+        Clear all
+      </Link>
+    </div>
+  );
 }
 
 function ViewToggle({
@@ -313,16 +388,19 @@ async function ProductResults({
 
   if (items.length === 0) {
     return (
-      <div className="rounded-card border border-dashed border-ink-200 bg-white px-6 py-16 text-center">
-        <svg viewBox="0 0 48 48" width="48" height="48" fill="none" className="mx-auto text-ink-200" aria-hidden>
-          <circle cx="21" cy="21" r="12" stroke="currentColor" strokeWidth="2.5" />
-          <path d="M30 30l9 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-        </svg>
-        <h2 className="mt-4 font-display text-xl font-semibold text-ink">No products found</h2>
-        <p className="mt-1 text-sm text-ink-500">Try a different search, or clear the filters.</p>
+      <div className="rounded-card border border-dashed border-ink-200 bg-white px-6 py-20 text-center">
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-paper-200">
+          <svg viewBox="0 0 48 48" width="28" height="28" fill="none" className="text-ink-300" aria-hidden>
+            <circle cx="21" cy="21" r="12" stroke="currentColor" strokeWidth="2.5" />
+            <path d="M30 30l9 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+        </span>
+        <h2 className="mt-5 font-serif text-xl font-semibold text-ink">No products found</h2>
+        <div className="rule-gold mx-auto mt-3" aria-hidden />
+        <p className="mt-3 text-sm text-ink-500">Try a different search, or clear the filters.</p>
         <Link
           href="/products"
-          className="mt-5 inline-flex h-11 items-center rounded-md bg-ink px-5 text-sm font-medium text-white btn-press"
+          className="mt-6 inline-flex h-11 items-center rounded-md bg-ink px-6 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-ink-700 hover:shadow-lift"
         >
           Clear filters
         </Link>
@@ -336,7 +414,7 @@ async function ProductResults({
   return (
     <>
       <p className="mb-4 text-sm text-ink-400" aria-live="polite">
-        {total} product{total === 1 ? "" : "s"}
+        <span className="font-semibold text-ink-600">{total}</span> product{total === 1 ? "" : "s"}
       </p>
 
       {view === "list" ? (
@@ -346,7 +424,7 @@ async function ProductResults({
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}

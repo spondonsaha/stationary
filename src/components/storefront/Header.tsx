@@ -14,7 +14,7 @@ export async function Header() {
     <header className="sticky top-0 z-40 print-hide">
       <div className="bg-ink text-white">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-xs sm:px-6">
-          <span className="font-medium tracking-wide">{shopConfig.university}</span>
+          <span className="font-semibold tracking-[0.14em] text-pencil-200 uppercase">{shopConfig.university}</span>
           <span className="hidden text-ink-200 sm:inline">
             {shopConfig.name}
             {shopConfig.hours ? ` · ${shopConfig.hours}` : ""}
@@ -22,20 +22,20 @@ export async function Header() {
         </div>
       </div>
 
-      <div className="border-b border-ink-100 bg-paper-50/95 backdrop-blur">
+      <div className="border-b border-ink-100 bg-paper-50/95 shadow-[0_1px_0_rgba(16,24,40,0.04)] backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
           <Link
             href="/"
-            className="flex shrink-0 items-center gap-2.5 rounded"
+            className="group flex shrink-0 items-center gap-2.5 rounded"
             aria-label={`${shopConfig.name} home`}
           >
             <BrandMark />
-            <span className="font-display text-lg font-semibold tracking-tight text-ink">
+            <span className="font-display text-lg font-semibold tracking-tight text-ink transition-colors group-hover:text-ink-700">
               {shopConfig.name}
             </span>
           </Link>
 
-          <nav aria-label="Categories" className="ml-4 hidden items-center gap-1 lg:flex">
+          <nav aria-label="Categories" className="ml-4 hidden items-center gap-0.5 lg:flex">
             {cats.map((c) => (
               <Link
                 key={c.id}

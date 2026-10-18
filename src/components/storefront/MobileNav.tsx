@@ -58,7 +58,7 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Quick navigation"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-100 bg-paper/95 backdrop-blur print-hide md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-100 bg-paper/92 shadow-[0_-2px_12px_rgba(16,24,40,0.06)] backdrop-blur print-hide md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="mx-auto flex max-w-lg items-stretch">
@@ -72,29 +72,32 @@ export function MobileNav() {
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`relative flex min-h-[56px] flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors ${
+                className={`relative flex min-h-[56px] flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors ${
                   active ? "text-ink" : "text-ink-400"
                 }`}
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  width="22"
-                  height="22"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.7"
-                  aria-hidden
+                <span
+                  className={`flex h-7 w-12 items-center justify-center rounded-full transition-colors ${
+                    active ? "bg-ink-100" : ""
+                  }`}
                 >
-                  {item.icon}
-                </svg>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="21"
+                    height="21"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    aria-hidden
+                  >
+                    {item.icon}
+                  </svg>
+                </span>
                 {item.label}
                 {item.label === "Cart" && count > 0 ? (
-                  <span className="absolute right-[calc(50%-22px)] top-1.5 flex h-4 min-w-4 items-center justify-center rounded-md bg-pencil px-1 text-[10px] font-bold text-ink-900">
+                  <span className="absolute right-[calc(50%-24px)] top-1 flex h-[18px] min-w-[18px] animate-pop items-center justify-center rounded-full bg-pencil px-1 text-[10px] font-bold text-ink-900">
                     {count}
                   </span>
-                ) : null}
-                {active ? (
-                  <span className="absolute inset-x-6 top-0 h-0.5 rounded-md bg-pencil" aria-hidden />
                 ) : null}
               </Link>
             </li>

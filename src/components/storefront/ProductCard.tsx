@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: ProductListItem }) {
   const low = !out && product.stock <= 5;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-card border border-ink-100 bg-white shadow-soft transition-colors hover:border-ink-300">
+    <article className="group relative flex flex-col overflow-hidden rounded-card border border-ink-100 bg-white shadow-card card-lift">
       <Link
         href={`/products/${product.slug}`}
         className="relative block aspect-square overflow-hidden bg-paper-100"
@@ -22,7 +22,7 @@ export function ProductCard({ product }: { product: ProductListItem }) {
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover"
+            className="object-cover img-zoom"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-ink-300" aria-hidden>
@@ -44,16 +44,16 @@ export function ProductCard({ product }: { product: ProductListItem }) {
       </Link>
 
       <div className="flex flex-1 flex-col gap-1 p-4">
-        <p className="text-xs font-medium uppercase tracking-wide text-ink-400">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-pencil-400">
           {product.categoryName}
         </p>
         <h3 className="text-sm font-semibold leading-snug text-ink-800">
-          <Link href={`/products/${product.slug}`} className="hover:text-ink">
+          <Link href={`/products/${product.slug}`} className="transition-colors hover:text-ink-700">
             <span className="line-clamp-2">{product.name}</span>
           </Link>
         </h3>
         <div className="mt-auto flex items-center justify-between gap-2 pt-3">
-          <p className="font-display text-lg font-semibold text-ink">{formatMoney(price)}</p>
+          <p className="font-display text-lg font-semibold tabular-nums text-ink">{formatMoney(price)}</p>
           <AddToCartButton
             product={{
               productId: product.id,
@@ -80,24 +80,24 @@ export function ProductRow({ product }: { product: ProductListItem }) {
   const low = !out && product.stock <= 5;
 
   return (
-    <article className="flex gap-4 rounded-card border border-ink-100 bg-white p-3 shadow-soft transition-colors hover:border-ink-300">
+    <article className="flex gap-4 rounded-card border border-ink-100 bg-white p-3 shadow-card card-lift">
       <Link
         href={`/products/${product.slug}`}
         className="relative block h-28 w-28 shrink-0 overflow-hidden rounded-md bg-paper-100 sm:h-32 sm:w-32"
       >
         {product.image ? (
-          <Image src={product.image} alt={product.name} fill sizes="128px" className="object-cover" />
+          <Image src={product.image} alt={product.name} fill sizes="128px" className="object-cover img-zoom" />
         ) : null}
       </Link>
 
       <div className="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div className="min-w-0">
-          <p className="text-xs font-medium uppercase tracking-wide text-ink-400">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-pencil-400">
             {product.categoryName}
-            {product.brand ? <span className="text-ink-300"> · {product.brand}</span> : null}
+            {product.brand ? <span className="ml-1.5 font-medium normal-case tracking-normal text-ink-300">· {product.brand}</span> : null}
           </p>
           <h3 className="mt-0.5 text-base font-semibold leading-snug text-ink-800">
-            <Link href={`/products/${product.slug}`} className="hover:text-ink">
+            <Link href={`/products/${product.slug}`} className="transition-colors hover:text-ink-700">
               {product.name}
             </Link>
           </h3>
