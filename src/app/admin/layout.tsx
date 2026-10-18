@@ -44,12 +44,6 @@ export default async function AdminLayout({
         </Link>
         <AdminNav />
         <div className="mt-auto space-y-2 border-t border-ink-100 pt-3">
-          <Link
-            href="/"
-            className="block rounded-md px-3 py-2 text-sm font-medium text-ink-500 hover:bg-ink-50"
-          >
-            View storefront
-          </Link>
           <form action={logoutAction}>
             <button
               type="submit"
@@ -67,8 +61,8 @@ export default async function AdminLayout({
       </aside>
 
       <div className="flex min-w-0 flex-col">
-        {/* Top bar: mobile nav + brand link back to the storefront home */}
-        <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-ink-100 bg-paper/95 px-4 py-3 backdrop-blur sm:px-6">
+        {/* Top bar: mobile menu + brand (links home) + actions */}
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-ink-100 bg-paper/95 px-4 backdrop-blur sm:px-6 sm:gap-3">
           <div className="lg:hidden">
             <AdminMobileNav />
           </div>
@@ -81,7 +75,7 @@ export default async function AdminLayout({
             <span className="truncate font-display text-sm font-semibold text-ink sm:text-base">
               {shopConfig.name}
             </span>
-            <span className="hidden rounded bg-ink-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-500 sm:inline">
+            <span className="hidden shrink-0 rounded bg-ink-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-500 sm:inline">
               Admin
             </span>
           </Link>
@@ -90,7 +84,7 @@ export default async function AdminLayout({
               href="/"
               className="inline-flex h-9 items-center rounded-md border border-ink-200 bg-white px-3 text-sm font-medium text-ink hover:bg-ink-50"
             >
-              Home
+              View store
             </Link>
             <form action={logoutAction} className="lg:hidden">
               <button

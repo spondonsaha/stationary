@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { loginAction, type LoginState } from "@/app/admin/actions";
 import { Field, Input } from "@/components/ui/Input";
@@ -18,13 +19,17 @@ export function LoginForm({
   return (
     <div className="flex min-h-dvh items-center justify-center bg-paper px-4">
       <div className="w-full max-w-sm rounded-card border border-ink-100 bg-white p-6 shadow-soft sm:p-8">
-        <div className="flex items-center gap-2.5">
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 rounded-md"
+          aria-label={`${shopName} — back to home`}
+        >
           <BrandMark className="h-9 w-9" />
           <div>
             <p className="font-display text-lg font-semibold leading-tight text-ink">{shopName}</p>
             <p className="text-xs text-ink-400">Admin sign in</p>
           </div>
-        </div>
+        </Link>
 
         <form action={formAction} className="mt-6 space-y-4">
           <input type="hidden" name="next" value={next} />

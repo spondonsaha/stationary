@@ -31,12 +31,10 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceView }) {
           </div>
         </div>
 
-        <div className="text-right">
+        <div className="ml-auto text-right">
           <p className="font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">INVOICE</p>
-          <p className="mt-1 font-mono text-sm font-semibold text-ink-700">
-            {invoice.invoiceNumber}
-          </p>
-          <div className="mt-2">
+          <div className="mt-1.5 flex flex-wrap items-center justify-end gap-x-2 gap-y-1">
+            <p className="font-mono text-sm font-semibold text-ink-700">{invoice.invoiceNumber}</p>
             <StatusBadge status={invoice.status} />
           </div>
         </div>
