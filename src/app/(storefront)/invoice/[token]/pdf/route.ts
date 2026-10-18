@@ -36,9 +36,7 @@ export async function GET(
       },
     });
   } catch (err) {
-    // TEMP diagnostic: remove after root-causing the 500.
-    const msg = err instanceof Error ? `${err.name}: ${err.message}\n${err.stack ?? ""}` : String(err);
     console.error("PDF render failed", err);
-    return new Response(msg, { status: 500 });
+    return new Response("PDF generation failed", { status: 500 });
   }
 }

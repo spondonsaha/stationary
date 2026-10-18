@@ -10,6 +10,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   /**
+   * pdfkit (used by @react-pdf/renderer for invoice PDFs) resolves its
+   * standard fonts via lazy `#standard-fonts/*` requires that file tracing
+   * misses — declare them so they ship in the serverless bundle.
+   */
+  outputFileTracingIncludes: {
+    "/invoice/[token]/pdf": ["./node_modules/pdfkit/js/**"],
+  },
+  /**
    * Inline server-side env into the client bundle at build time so cart/checkout
    * UI always matches the configured currency and store name. Server
    * components read the live values directly.
