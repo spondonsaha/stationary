@@ -36,9 +36,9 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-dvh bg-paper-200/50 lg:grid lg:grid-cols-[240px_1fr]">
-      {/* Sidebar (desktop) */}
-      <aside className="hidden border-r border-ink-100 bg-white lg:flex lg:flex-col lg:gap-2 lg:p-4">
-        <Link href="/admin" className="mb-2 flex items-center gap-2.5 rounded-md px-2 py-1.5">
+      {/* Sidebar (desktop) — fixed in place while the content scrolls */}
+      <aside className="sticky top-0 hidden h-dvh overflow-y-auto border-r border-ink-100 bg-white lg:flex lg:flex-col lg:gap-2 lg:p-4">
+        <Link href="/" className="mb-2 flex items-center gap-2.5 rounded-md px-2 py-1.5">
           <BrandMark className="h-8 w-8" />
           <span className="font-display text-base font-semibold text-ink">{shopConfig.name}</span>
         </Link>
@@ -67,20 +67,30 @@ export default async function AdminLayout({
       </aside>
 
       <div className="flex min-w-0 flex-col">
-        {/* Top bar (mobile + desktop title area) */}
+        {/* Top bar: mobile nav + brand link back to the storefront home */}
         <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-ink-100 bg-paper/95 px-4 py-3 backdrop-blur sm:px-6">
-          <div className="relative lg:hidden">
+          <div className="lg:hidden">
             <AdminMobileNav />
           </div>
-          <Link href="/admin" className="flex items-center gap-2 lg:hidden">
-            <BrandMark className="h-7 w-7" />
+          <Link
+            href="/"
+            className="flex min-w-0 items-center gap-2 rounded-md"
+            aria-label={`${shopConfig.name} — back to home`}
+          >
+            <BrandMark className="h-7 w-7 shrink-0" />
+            <span className="truncate font-display text-sm font-semibold text-ink sm:text-base">
+              {shopConfig.name}
+            </span>
+            <span className="hidden rounded bg-ink-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-500 sm:inline">
+              Admin
+            </span>
           </Link>
           <div className="ml-auto flex items-center gap-2">
             <Link
               href="/"
-              className="hidden rounded-md px-3 py-2 text-sm font-medium text-ink-500 hover:bg-ink-50 sm:inline-flex"
+              className="inline-flex h-9 items-center rounded-md border border-ink-200 bg-white px-3 text-sm font-medium text-ink hover:bg-ink-50"
             >
-              Storefront
+              Home
             </Link>
             <form action={logoutAction} className="lg:hidden">
               <button

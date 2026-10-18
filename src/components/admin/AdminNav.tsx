@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const NAV = [
   { href: "/admin", label: "Overview", icon: "M4 12l8-7 8 7v8a2 2 0 01-2 2h-4v-6h-4v6H6a2 2 0 01-2-2v-8z" },
@@ -56,11 +56,37 @@ export function AdminNav({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-/** Mobile: collapsible admin nav. */
+/** Mobile: collapsible admin nav. Dropdown anchors below the full sticky header. */
 export function AdminMobileNav() {
   const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  // Close when the route changes (nav link clicked).
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Close on Escape and outside click; lock body scroll while open.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onPointer = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onPointer);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onPointer);
+    };
+  }, [open]);
+
   return (
-    <div className="lg:hidden">
+    <div ref={rootRef} className="lg:hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -69,14 +95,18 @@ export function AdminMobileNav() {
         className="inline-flex h-11 items-center gap-2 rounded-md border border-ink-200 bg-white px-4 text-sm font-medium text-ink"
       >
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden>
-          <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          {open ? (
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          ) : (
+            <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          )}
         </svg>
-        Menu
+        {open ? "Close" : "Menu"}
       </button>
       {open ? (
         <div
           id="admin-mobile-nav"
-          className="absolute inset-x-0 top-full z-40 border-b border-ink-100 bg-white p-3 shadow-lift"
+          className="absolute inset-x-0 top-full z-40 max-h-[calc(100dvh-5rem)] overflow-y-auto border-b border-ink-100 bg-white p-3 shadow-lift"
         >
           <AdminNav onNavigate={() => setOpen(false)} />
         </div>
