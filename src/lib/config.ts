@@ -41,9 +41,13 @@ export const shopConfig = {
   /** Tax rate as percent, e.g. 8.5 => 8.5% */
   taxRatePercent: Number(env("NEXT_PUBLIC_TAX_RATE", "TAX_RATE") ?? "8.5"),
   baseUrl: env("NEXT_PUBLIC_URL") ?? "http://localhost:3000",
-  // No fallback: a missing AUTH_SECRET must fail loudly, never default to a
-  // known value. Set it in .env (see .env.example).
-  authSecret: required("AUTH_SECRET"),
+  // Lazy getter: this module is imported by client components (formatMoney,
+  // branding), and production client bundles only inline NEXT_PUBLIC_* vars —
+  // a module-scope required("AUTH_SECRET") would throw in the browser and
+  // blank every page. No fallback on read: a missing secret still fails loudly.
+  get authSecret(): string {
+    return required("AUTH_SECRET");
+  },
 };
 
 export type ShopInfo = typeof shopConfig;
