@@ -62,13 +62,13 @@ export default async function AdminLayout({
 
       <div className="flex min-w-0 flex-col">
         {/* Top bar: mobile menu + brand (links home) + actions */}
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-ink-100 bg-paper/95 px-4 backdrop-blur sm:px-6 sm:gap-3">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-1.5 border-b border-ink-100 bg-paper/95 px-3 backdrop-blur sm:gap-3 sm:px-6">
           <div className="lg:hidden">
             <AdminMobileNav />
           </div>
           <Link
             href="/"
-            className="flex min-w-0 items-center gap-2 rounded-md"
+            className="flex min-w-0 flex-1 items-center gap-2 rounded-md sm:flex-none"
             aria-label={`${shopConfig.name} — back to home`}
           >
             <BrandMark className="h-7 w-7 shrink-0" />
@@ -79,18 +79,46 @@ export default async function AdminLayout({
               Admin
             </span>
           </Link>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <Link
               href="/"
-              className="inline-flex h-9 items-center rounded-md border border-ink-200 bg-white px-3 text-sm font-medium text-ink hover:bg-ink-50"
+              title="View storefront"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-ink-200 bg-white text-ink hover:bg-ink-50 sm:h-9 sm:w-auto sm:gap-2 sm:px-3 sm:text-sm sm:font-medium"
             >
-              View store
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M3 10.5L12 4l9 6.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1v-9.5z" />
+              </svg>
+              <span className="hidden sm:inline">View store</span>
+              <span className="sr-only sm:hidden">View storefront</span>
             </Link>
             <form action={logoutAction} className="lg:hidden">
               <button
                 type="submit"
-                className="rounded-md px-3 py-2 text-sm font-medium text-ink-500 hover:bg-ink-50"
+                className="inline-flex h-10 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium text-ink-500 hover:bg-ink-50 sm:h-9 sm:px-3"
               >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="17"
+                  height="17"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M9 4H5a1 1 0 00-1 1v14a1 1 0 001 1h4M15 8l4 4-4 4M19 12H9" />
+                </svg>
                 Sign out
               </button>
             </form>
