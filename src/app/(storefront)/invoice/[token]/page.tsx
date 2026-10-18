@@ -32,6 +32,13 @@ export default async function InvoicePage({
         </div>
         <div className="flex flex-wrap gap-2">
           <PrintButton />
+          <a
+            href={`/invoice/${invoice.publicToken}/pdf`}
+            className="inline-flex h-11 items-center justify-center rounded-md border border-ink-200 bg-white px-5 text-sm font-medium text-ink btn-press hover:border-ink-400"
+            download
+          >
+            Download PDF
+          </a>
         </div>
       </div>
 

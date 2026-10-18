@@ -10,6 +10,7 @@ import { StatusBadge } from "@/components/invoice/StatusBadge";
 import { InvoiceSheet } from "@/components/invoice/InvoiceSheet";
 import { AddPaymentForm } from "@/components/admin/AddPaymentForm";
 import { InvoiceStatusActions } from "@/components/admin/InvoiceStatusActions";
+import { PrintButton } from "@/components/invoice/PrintButton";
 
 export const metadata = { title: "Invoice" };
 export const dynamic = "force-dynamic";
@@ -77,12 +78,22 @@ export default async function AdminInvoiceDetailPage({
         title={invoice.invoiceNumber}
         description={`${customer.name} · issued ${formatDate(invoice.issueDate)}`}
         actions={
-          <Link
-            href={`/admin/invoices`}
-            className="inline-flex h-11 items-center rounded-md border border-ink-200 bg-white px-4 text-sm font-medium text-ink btn-press"
-          >
-            All invoices
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={`/admin/invoices`}
+              className="inline-flex h-11 items-center rounded-md border border-ink-200 bg-white px-4 text-sm font-medium text-ink btn-press"
+            >
+              All invoices
+            </Link>
+            <a
+              href={`/invoice/${invoice.publicToken}/pdf`}
+              className="inline-flex h-11 items-center rounded-md border border-ink-200 bg-white px-4 text-sm font-medium text-ink btn-press"
+              download
+            >
+              Download PDF
+            </a>
+            <PrintButton />
+          </div>
         }
       />
 
