@@ -24,14 +24,21 @@ export async function GET(
     return new Response("Not found", { status: 404 });
   }
 
-  const buffer = await renderInvoicePdf(invoice, shopConfig);
-  const filename = `${invoice.invoiceNumber}.pdf`;
+  try {
+    const buffer = await renderInvoicePdf(invoice, shopConfig);
+    const filename = `${invoice.invoiceNumber}.pdf`;
 
-  return new Response(new Uint8Array(buffer), {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="${filename}"`,
-      "Cache-Control": "private, no-store",
-    },
-  });
+    return new Response(new Uint8Array(buffer), {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="${filename}"`,
+        "Cache-Control": "private, no-store",
+      },
+    });
+  } catch (err) {
+    // TEMP diagnostic: remove after root-causing the 500.
+    const msg = err instanceof Error ? `${err.name}: ${err.message}\n${err.stack ?? ""}` : String(err);
+    console.error("PDF render failed", err);
+    return new Response(msg, { status: 500 });
+  }
 }
