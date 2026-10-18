@@ -66,13 +66,6 @@ export default async function CheckoutSuccessPage({
           >
             View invoice
           </Link>
-          <a
-            href={`/invoice/${invoice.publicToken}/pdf`}
-            className="inline-flex h-12 items-center justify-center rounded-md border border-ink-200 bg-white text-sm font-medium text-ink btn-press hover:border-ink-400"
-            download
-          >
-            Download PDF
-          </a>
         </div>
         <Link
           href="/products"
@@ -82,7 +75,7 @@ export default async function CheckoutSuccessPage({
         </Link>
 
         <p className="mt-6 text-xs text-ink-400">
-          Keep this link handy — it lets you view and download this invoice any time. We&apos;ll
+          Keep this link handy — it lets you view this invoice any time. We&apos;ll
           also email a copy if you provided your email at checkout.
         </p>
       </div>

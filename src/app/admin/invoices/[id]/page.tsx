@@ -10,7 +10,6 @@ import { StatusBadge } from "@/components/invoice/StatusBadge";
 import { InvoiceSheet } from "@/components/invoice/InvoiceSheet";
 import { AddPaymentForm } from "@/components/admin/AddPaymentForm";
 import { InvoiceStatusActions } from "@/components/admin/InvoiceStatusActions";
-import { CopyLinkButton } from "@/components/admin/CopyLinkButton";
 
 export const metadata = { title: "Invoice" };
 export const dynamic = "force-dynamic";
@@ -78,21 +77,12 @@ export default async function AdminInvoiceDetailPage({
         title={invoice.invoiceNumber}
         description={`${customer.name} · issued ${formatDate(invoice.issueDate)}`}
         actions={
-          <>
-            <Link
-              href={`/admin/invoices`}
-              className="inline-flex h-11 items-center rounded-md border border-ink-200 bg-white px-4 text-sm font-medium text-ink btn-press"
-            >
-              All invoices
-            </Link>
-            <CopyLinkButton path={`/invoice/${invoice.publicToken}`} />
-            <a
-              href={`/invoice/${invoice.publicToken}/pdf`}
-              className="inline-flex h-11 items-center rounded-md border border-ink-200 bg-white px-4 text-sm font-medium text-ink btn-press"
-            >
-              Download PDF
-            </a>
-          </>
+          <Link
+            href={`/admin/invoices`}
+            className="inline-flex h-11 items-center rounded-md border border-ink-200 bg-white px-4 text-sm font-medium text-ink btn-press"
+          >
+            All invoices
+          </Link>
         }
       />
 
@@ -117,7 +107,7 @@ export default async function AdminInvoiceDetailPage({
         </div>
 
         <aside className="h-fit space-y-4">
-          <Card title="Status actions" description="Mark paid, void, or download">
+          <Card title="Status actions" description="Mark paid, void, or update status">
             <InvoiceStatusActions invoiceId={invoice.id} status={invoice.status} />
             <div className="mt-4 space-y-1.5 text-sm text-ink-500">
               <div className="flex justify-between">

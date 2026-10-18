@@ -12,13 +12,13 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceView }) {
     Math.round((toMoney(invoice.total) - toMoney(invoice.amountPaid)) * 100) / 100;
 
   return (
-    <article className="print-sheet mx-auto w-full max-w-3xl rounded-card border border-ink-100 bg-white p-6 shadow-soft sm:p-10">
+    <article className="print-sheet mx-auto w-full max-w-3xl rounded-card border border-ink-100 bg-white p-4 shadow-soft sm:p-10">
       {/* Header: shop + invoice meta */}
-      <header className="flex flex-wrap items-start justify-between gap-6 border-b border-ink-100 pb-6">
+      <header className="flex flex-wrap items-start justify-between gap-4 border-b border-ink-100 pb-5 sm:gap-6 sm:pb-6">
         <div className="flex items-start gap-3">
           <InvoiceLogo />
           <div>
-            <h1 className="font-display text-xl font-semibold text-ink">{shopConfig.name}</h1>
+            <h1 className="font-display text-lg font-semibold text-ink sm:text-xl">{shopConfig.name}</h1>
             {shopConfig.address ? (
               <p className="mt-1 max-w-[16rem] text-xs leading-relaxed text-ink-500">
                 {shopConfig.address}
@@ -32,7 +32,7 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceView }) {
         </div>
 
         <div className="text-right">
-          <p className="font-display text-2xl font-semibold tracking-tight text-ink">INVOICE</p>
+          <p className="font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">INVOICE</p>
           <p className="mt-1 font-mono text-sm font-semibold text-ink-700">
             {invoice.invoiceNumber}
           </p>
@@ -43,7 +43,7 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceView }) {
       </header>
 
       {/* Billed-to + dates */}
-      <section className="grid gap-6 py-6 sm:grid-cols-2">
+      <section className="grid gap-4 py-5 sm:grid-cols-2 sm:gap-6 sm:py-6">
         <div>
           <h2 className="text-xs font-semibold uppercase tracking-wide text-ink-400">
             Billed to
@@ -147,7 +147,7 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceView }) {
       </section>
 
       {/* Totals */}
-      <section className="mt-6 flex justify-end">
+      <section className="mt-5 flex justify-end sm:mt-6">
         <dl className="w-full max-w-xs space-y-2 text-sm">
           <div className="flex justify-between">
             <dt className="text-ink-500">Subtotal</dt>

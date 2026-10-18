@@ -24,23 +24,14 @@ export default async function InvoicePage({
   if (!invoice) notFound();
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 print:px-0 print:py-0">
+    <div className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-8 print:px-0 print:py-0">
       <div className="print-hide mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-semibold text-ink">Invoice</h1>
-          <p className="text-sm text-ink-500">
-            {invoice.invoiceNumber} · shared via secure link
-          </p>
+          <h1 className="font-display text-xl font-semibold text-ink sm:text-2xl">Invoice</h1>
+          <p className="text-sm text-ink-500">{invoice.invoiceNumber}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <PrintButton />
-          <a
-            href={`/invoice/${invoice.publicToken}/pdf`}
-            className="inline-flex h-11 items-center justify-center rounded-md bg-ink px-5 text-sm font-medium text-paper-50 btn-press hover:bg-ink-700"
-            download
-          >
-            Download PDF
-          </a>
         </div>
       </div>
 
